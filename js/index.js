@@ -1,1 +1,1 @@
-import {} from "/js/dataFetched.js";
+import {} from "/js/displayHome.js";

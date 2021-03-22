@@ -1,11 +1,7 @@
-fetch("/FishEyeDataFR.json")
-	.then((response) => response.json())
-	.then((data) => {
-		console.log(data);
-		console.log(data.media);
-		console.log(data.photographers);
-	})
-	.catch((error) => {
-		console.error("Une erreur est survenue pendant l'accès aux données.");
-		console.error(error);
-	});
+export const getData = () =>
+	fetch("/FishEyeDataFR.json")
+		.then((response) => response.json())
+		.catch((error) => {
+			console.error("Une erreur est survenue pendant l'accès aux données.");
+			console.error(error);
+		});
