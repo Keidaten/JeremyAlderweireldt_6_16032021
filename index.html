@@ -5,29 +5,30 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="description" content="Accédez aux portfolios de photographes freelance, et trouver celui qui vous correspond !" />
+		<link rel="stylesheet" href="/css/style.css" />
 		<title>FishEye</title>
-		<script src="js/index.js" type="module"></script>
 	</head>
 	<body>
 		<header class="header">
-			<a href="index.html">
-				<img class="header__logo" src="./img/logo.svg" alt="Fisheye home page" />
+			<a class="header__logo" href="index.html">
+				<img src="./img/logo.svg" alt="Fisheye home page" />
 			</a>
 			<nav class="header__nav" aria-label="photographer categories">
-				<ul>
-					<li><button class="header__nav__tag" title="portrait">#Portrait</button></li>
-					<li><button class="header__nav__tag" title="art">#Art</button></li>
-					<li><button class="header__nav__tag" title="fashion">#Fashion</button></li>
-					<li><button class="header__nav__tag" title="architecture">#Architecture</button></li>
-					<li><button class="header__nav__tag" title="travel">#Travel</button></li>
-					<li><button class="header__nav__tag" title="sport">#Sport</button></li>
-					<li><button class="header__nav__tag" title="animals">#Animals</button></li>
-					<li><button class="header__nav__tag" title="events">#Events</button></li>
+				<ul class="filters">
+					<li><button class="header__tag" id="portrait" data-filter="portrait">#Portrait</button></li>
+					<li><button class="header__tag" id="art" data-filter="art">#Art</button></li>
+					<li><button class="header__tag" id="fashion" data-filter="fashion">#Fashion</button></li>
+					<li><button class="header__tag" id="architecture" data-filter="architecture">#Architecture</button></li>
+					<li><button class="header__tag" id="travel" data-filter="travel">#Travel</button></li>
+					<li><button class="header__tag" id="sport" data-filter="sport">#Sport</button></li>
+					<li><button class="header__tag" id="animals" data-filter="animals">#Animals</button></li>
+					<li><button class="header__tag" id="events" data-filter="events">#Events</button></li>
 				</ul>
 			</nav>
-			<h1 id="mainTitle">Nos photographes</h1>
+			<h1 id="header__title">Nos photographes</h1>
 		</header>
 		<main class="main" id="mainHome"></main>
 		<footer></footer>
+		<script src="js/index.js" type="module"></script>
 	</body>
 </html>
