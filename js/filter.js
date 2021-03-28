@@ -6,14 +6,14 @@ filters.forEach((filter) => {
 		let itemsToHide = document.querySelectorAll(`main .card:not(.${selectedFilter})`);
 		let itemsToShow = document.querySelectorAll(`main .${selectedFilter}`);
 
-		itemsToHide.forEach((el) => {
-			el.classList.add("--hide");
-			el.classList.remove("--show");
+		itemsToHide.forEach((itemToHide) => {
+			itemToHide.classList.add("--hide");
+			itemToHide.classList.remove("--show");
 		});
 
-		itemsToShow.forEach((el) => {
-			el.classList.remove("--hide");
-			el.classList.add("--show");
+		itemsToShow.forEach((itemToShow) => {
+			itemToShow.classList.remove("--hide");
+			itemToShow.classList.add("--show");
 		});
 	});
 });
