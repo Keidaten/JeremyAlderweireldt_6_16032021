@@ -1,31 +1,101 @@
 import { getData } from "/js/dataFetched.js";
+import { callFilters } from "/js/filterPhotographerPage.js";
+import { popularityFilter } from "/js/filterPhotographerPage.js";
 
 const displayPhotographerPage = () => {
 	getData().then((data) => {
 		const photographers = data.photographers;
 		const mediaData = data.media;
 		const mainHome = document.getElementById("mainHome");
-		const photographAchor = document.getElementsByClassName("card__name");
 
+		// Factory media
+		class MediatypeFactory {
+			constructor() {
+				this.createMediatype = function (type) {
+					let media;
+					if (type === "video") media = new Video();
+					else if (type === "image") media = new Photo();
+					return media;
+				};
+			}
+		}
+
+		class Photo {
+			constructor() {
+				this._type = "photo";
+				this.createPhoto = function (IDphotograph, namePhotograph) {
+					let getImages = mediaData.filter((medias) => medias["photographerId"] == IDphotograph && "image" in medias); //get images relative to the right photographer
+					const photographerPics = getImages
+						.map((pic) => {
+							const picsTitle = pic.image
+								.slice(0, -4)
+								.replace(/([_])/g, " ")
+								.split(" ")
+								.slice(1)
+								.join(" ")
+								.replace(/([A-Z])/g, " $1")
+								.trim();
+							return `
+								<article data-likes="${pic.likes} "data-date="${pic.date}" class="media" data-title="${picsTitle}">
+									<figure><img src="img/${namePhotograph}/${pic.image}" alt="" width="100px">
+										<figcaption>
+											<h3 class="media__title">${picsTitle}</h3>
+											<p>${pic.price}€</p><p class="likes">${pic.likes}<i class="fas fa-heart"></i></p>
+										</figcaption>
+									</figure>
+								</article>
+								`;
+						})
+						.join("");
+					return photographerPics;
+				};
+			}
+		}
+
+		class Video {
+			constructor() {
+				this._type = "video";
+				this.createVideo = function (IDphotograph, namePhotograph) {
+					let getVideos = mediaData.filter((medias) => medias["photographerId"] == IDphotograph && "video" in medias);
+					const photographerVids = getVideos
+						.map((vid) => {
+							const vidsTitle = vid.video
+								.slice(0, -4)
+								.replace(/([_])/g, " ")
+								.split(" ")
+								.slice(1)
+								.join(" ")
+								.replace(/([A-Z])/g, " $1")
+								.trim();
+							return `
+								<article class="media" "data-date="${vid.date}" data-likes="${vid.likes}" data-title="${vidsTitle}">
+								<video width="100px"><source src="img/${namePhotograph}/${vid.video}"" type="video/mp4"></video>
+								<h3 class="media__title">${vidsTitle}</h3>
+									<p>${vid.price}€</p><p class="likes">${vid.likes}<i class="fas fa-heart"></i></p>
+								</article>
+								`;
+						})
+						.join("");
+					return photographerVids;
+				};
+			}
+		}
+
+		const mediatypeFactory = new MediatypeFactory();
+
+		//Boucle sur les photographes
 		for (let i = 0; i < photographers.length; i++) {
+			const photographAchor = document.getElementsByClassName("card__name");
+
 			photographAchor[i].addEventListener("click", function () {
 				const unWantedElements = document.querySelectorAll(".header__title, .header__nav"); //get element to hide
 				unWantedElements.forEach((element) => (element.style.display = "none"));
 
-				let filteredImages = mediaData.filter((article) => article["photographerId"] == photographers[i].id && "image" in article); //get images relative to the right photographer
-				const photographerPics = filteredImages.map((pic) => `<img src="img/${photographers[i].name.split(" ")[0]}/${pic.image}" alt="" width="100px">`);
+				const photo = mediatypeFactory.createMediatype("image");
+				const imagesArticles = photo.createPhoto(photographers[i].id, photographers[i].name.split(" ")[0]);
 
-				let filteredVideos = mediaData.filter((article) => article["photographerId"] == photographers[i].id && "video" in article); //get videos relative to the right photographer
-				const photographerVids = filteredVideos.map((vid) => `<video width="100px"><source src="img/${photographers[i].name.split(" ")[0]}/${vid.video}"" type="video/mp4"></video>`);
-				// `<img src="img/${photographers[i].name.split(" ")[0]}/${pics.image}" alt="" width="100px">`
-				// console.log(photographerPics);
-
-				// const photographerVids = filteredArticles.map(
-				// 	(vid) => console.log(vid.likes)
-				// 	// `<source src="img/${photographers[i].name.split(" ")[0]}/${vid.video}"" type="video/mp4">`
-				// );
-
-				// console.log(photographerVids);
+				const video = mediatypeFactory.createMediatype("video");
+				const videoArticles = video.createVideo(photographers[i].id, photographers[i].name.split(" ")[0]);
 
 				const photographerPage = `
 				<button class="contactButton">Contactez-moi</button>
@@ -35,12 +105,24 @@ const displayPhotographerPage = () => {
 				<br />
 				<p class="photographInfos__tagline">${photographers[i].tagline}</p>
 				<p class="photographInfos__tags">${photographers[i].tags.map((tag) => `<button class=" tag">#${tag}</button>`).join("")}</p>
-				
+
 				<img classe="" src="img/Photographers_ID_Photos/${photographers[i].portrait}" width="250px" alt=""></img>
 				</div>
-				<section>${photographerPics}${photographerVids}</section>
+
+				<div class="button-dropdown"> 
+					<select id="selector">
+						<option id="poplarity" value="Popularité">Popularité</option>
+						<option id="date" value="Date">Date</option>
+						<option id="title" value="Titre">Titre</option>
+					</select>
+				</div>
+
+				<section>${imagesArticles}${videoArticles}</section>
 				`;
 				mainHome.innerHTML = photographerPage;
+
+				popularityFilter();
+				callFilters();
 			});
 		}
 	});

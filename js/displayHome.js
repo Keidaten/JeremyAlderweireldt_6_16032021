@@ -3,10 +3,7 @@ import { getData } from "/js/dataFetched.js";
 const displayPhotographers = () => {
 	getData().then((data) => {
 		const photographers = data.photographers;
-		// console.log(photographers);
 		const mainHome = document.getElementById("mainHome");
-		// console.log(photographers);
-		// localStorage.setItem("photograph", photographers[0].id); //localstorage
 		const photographerCard = photographers
 			.map(
 				(photograph) => `
