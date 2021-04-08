@@ -1,6 +1,7 @@
 import { getData } from "/js/dataFetched.js";
 import { callFilters } from "/js/filterPhotographerPage.js";
 import { popularityFilter } from "/js/filterPhotographerPage.js";
+import { incrementLikes } from "/js/filterPhotographerPage.js";
 
 const displayPhotographerPage = () => {
 	getData().then((data) => {
@@ -36,11 +37,17 @@ const displayPhotographerPage = () => {
 								.replace(/([A-Z])/g, " $1")
 								.trim();
 							return `
-								<article data-likes="${pic.likes} "data-date="${pic.date}" class="media" data-title="${picsTitle}">
+								<article data-likes="${pic.likes}" data-date="${pic.date}" class="media" data-title="${picsTitle}">
 									<figure><img src="img/${namePhotograph}/${pic.image}" alt="" width="100px">
 										<figcaption>
 											<h3 class="media__title">${picsTitle}</h3>
-											<p>${pic.price}€</p><p class="likes">${pic.likes}<i class="fas fa-heart"></i></p>
+											<p>${pic.price}€</p>
+                                            <button class="likeButton">
+                                                <p class="likes" id="likeNumber">${pic.likes}</p>
+                                                <span>
+                                                    <i class="fas fa-heart media__heart"></i>
+                                                </span>
+                                            </button>
 										</figcaption>
 									</figure>
 								</article>
@@ -68,10 +75,16 @@ const displayPhotographerPage = () => {
 								.replace(/([A-Z])/g, " $1")
 								.trim();
 							return `
-								<article class="media" "data-date="${vid.date}" data-likes="${vid.likes}" data-title="${vidsTitle}">
+								<article class="media" data-date="${vid.date}" data-likes="${vid.likes}" data-title="${vidsTitle}">
 								<video width="100px"><source src="img/${namePhotograph}/${vid.video}"" type="video/mp4"></video>
 								<h3 class="media__title">${vidsTitle}</h3>
-									<p>${vid.price}€</p><p class="likes">${vid.likes}<i class="fas fa-heart"></i></p>
+									<p>${vid.price}€</p>
+                                    <button class="likeButton">
+                                        <p class="likes" id="likeNumber">${vid.likes}</p>
+                                        <span>
+                                            <i class="fas fa-heart media__heart"></i>
+                                        </span>
+                                    </button>
 								</article>
 								`;
 						})
@@ -118,11 +131,13 @@ const displayPhotographerPage = () => {
 				</div>
 
 				<section>${imagesArticles}${videoArticles}</section>
+                <div class="bottom-info"><span class="photographer_totalLikes"></span><i class="fas fa-heart"></i><span class="photographer_price">${photographers[i].price}€/jour</span></div>
 				`;
 				mainHome.innerHTML = photographerPage;
 
-				popularityFilter();
-				callFilters();
+				popularityFilter(); // Trie par défaut par popularité
+				callFilters(); // Appelle les filtres
+				incrementLikes();
 			});
 		}
 	});
