@@ -7,16 +7,16 @@ const displayPhotographers = () => {
 		const photographerCard = photographers
 			.map(
 				(photograph) => `
-				<figure class="card ${photograph.tags.map((tag) => `${tag}`).join(" ")}">
-					<a class="card__link" href="">
-						<img class="card__image" src="img/Photographers_ID_Photos/${photograph.portrait}" alt="${photograph.name}" />
+				<figure class="cards ${photograph.tags.map((tag) => `${tag}`).join(" ")}">
+					<a class="cards__link">
+						<img class="cards__image" src="img/Photographers_ID_Photos/${photograph.portrait}" alt="${photograph.name}" />
 					</a>
-					<figcaption class="card__caption">
-						<h2 class="card__name">${photograph.name}</h2>
-						<p class="card__city">${photograph.city}, ${photograph.country}</p>
-						<p class="card__tagline">${photograph.tagline}</p>
-						<p class="card__price">${photograph.price}&euro;/jour</p>
-						<p class="card__tags">${photograph.tags.map((tag) => `<button class="card__tags tag">#${tag}</button>`).join("")}</p>
+					<figcaption class="cards__caption">
+						<h2 class="cards__name">${photograph.name}</h2>
+						<p class="cards__city">${photograph.city}, ${photograph.country}</p>
+						<p class="cards__tagline">${photograph.tagline}</p>
+						<p class="cards__price">${photograph.price}&euro;/jour</p>
+						<p class="cards__tags">${photograph.tags.map((tag) => `<button class="cardsHome__tags tag">#${tag}</button>`).join("")}</p>
 					</figcaption>
 				</figure>
 						`
