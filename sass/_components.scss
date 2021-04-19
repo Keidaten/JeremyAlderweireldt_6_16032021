@@ -1,0 +1,33 @@
+.photographInfos {
+	&__name {
+		color: $secondary-color;
+		font-size: 2.25rem;
+	}
+	&__city {
+		color: $primary-color;
+		font-size: 1rem;
+	}
+	&__tagline {
+		color: initial;
+		font-size: 1rem;
+		&--greyed {
+			color: $grey;
+		}
+	}
+	&__img {
+		width: 200px;
+		height: 200px;
+		object-fit: cover;
+		border-radius: 50%;
+	}
+	&__price {
+		color: initial;
+	}
+	&__tags {
+		margin-top: 5px;
+	}
+	&__tag {
+		margin-top: 5px;
+		@include tags-style;
+	}
+}

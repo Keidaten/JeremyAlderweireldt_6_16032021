@@ -3,7 +3,7 @@ const filters = document.querySelectorAll(".header__tag");
 filters.forEach((filter) => {
 	filter.addEventListener("click", function () {
 		let selectedFilter = filter.getAttribute("data-filter");
-		let itemsToHide = document.querySelectorAll(`main .card:not(.${selectedFilter})`);
+		let itemsToHide = document.querySelectorAll(`main .photographInfos:not(.${selectedFilter})`);
 		let itemsToShow = document.querySelectorAll(`main .${selectedFilter}`);
 
 		itemsToHide.forEach((itemToHide) => {

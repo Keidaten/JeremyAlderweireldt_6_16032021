@@ -4,8 +4,25 @@
 	background: none;
 	border-width: 0.5px;
 	margin: 1.5px;
+	font-weight: 600;
+	&:hover,
 	&:focus {
-		background: $secondary-color;
+		background: $primary-color;
+		color: white;
+	}
+}
+
+@mixin buttons-style {
+	height: 35px;
+	width: 170px;
+	background-color: $primary-color;
+	color: white;
+	border-radius: 5px;
+	border: transparent;
+	font-weight: 600;
+	&:hover,
+	&:focus {
+		background-color: $secondary-color;
 		color: black;
 	}
 }

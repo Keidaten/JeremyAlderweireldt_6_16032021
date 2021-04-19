@@ -3,12 +3,13 @@ import { callFilters } from "/js/filterPhotographerPage.js";
 import { popularityFilter } from "/js/filterPhotographerPage.js";
 import { incrementLikes } from "/js/likesCount.js";
 import { modalGestion } from "/js/modal-contact.js";
+import { fancyboxOptions } from "/js/fancyboxOptions.js";
 
 const displayPhotographerPage = () => {
 	getData().then((data) => {
 		const photographers = data.photographers;
 		const mediaData = data.media;
-		const mainHome = document.getElementById("mainHome");
+		const main = document.getElementById("main");
 
 		// Factory media
 		class MediatypeFactory {
@@ -39,12 +40,12 @@ const displayPhotographerPage = () => {
 								.trim();
 							return `
 								<article data-likes="${pic.likes}" data-date="${pic.date}" class="media" data-title="${picsTitle}">
-									<figure><a href="img/${namePhotograph}/${pic.image}" data-fancybox="gallery"><img src="img/${namePhotograph}/${pic.image}" alt=""></a>
+									<figure><a href="img/${namePhotograph}/${pic.image}" data-fancybox="gallery" data-caption="${picsTitle}"><img class="media__img" src="img/${namePhotograph}/${pic.image}" alt=""></a>
 										<figcaption>
 											<h3 class="media__title">${picsTitle}</h3>
 											<p>${pic.price}€</p>
-                                            <button class="likeButton">
-                                                <span class="likes likeNumber">${pic.likes}</span>
+                                            <button class="media__likeButton">
+                                                <span class="likes media__likeNumber">${pic.likes}</span>
                                                 <span>
                                                     <i class="fas fa-heart media__heart"></i>
                                                 </span>
@@ -77,11 +78,11 @@ const displayPhotographerPage = () => {
 								.trim();
 							return `
 								<article class="media" data-date="${vid.date}" data-likes="${vid.likes}" data-title="${vidsTitle}">
-                                <a href="img/${namePhotograph}/${vid.video}" data-fancybox="gallery"><video><source src="img/${namePhotograph}/${vid.video}" type="video/mp4"></video></a>
+                                <a href="img/${namePhotograph}/${vid.video}" data-fancybox="gallery" data-caption="${vidsTitle}"><video><source src="img/${namePhotograph}/${vid.video}" type="video/mp4"></video></a>
 								<h3 class="media__title">${vidsTitle}</h3>
 									<p>${vid.price}€</p>
-                                    <button class="likeButton">
-                                        <span class="likes likeNumber">${vid.likes}</span>
+                                    <button class="media__likeButton">
+                                        <span class="likes media__likeNumber">${vid.likes}</span>
                                         <span>
                                             <i class="fas fa-heart media__heart"></i>
                                         </span>
@@ -99,11 +100,16 @@ const displayPhotographerPage = () => {
 
 		//Boucle sur les photographes
 		for (let i = 0; i < photographers.length; i++) {
-			const photographAchor = document.getElementsByClassName("cards");
+			const photographAchor = document.getElementsByClassName("photographInfos__img");
 
 			photographAchor[i].addEventListener("click", function () {
-				const unWantedElements = document.querySelectorAll(".header__title, .header__nav"); //get element to hide
+				const unWantedElements = document.querySelectorAll(".header__title, .header__nav, .scrollHelp"); //get element to hide
 				unWantedElements.forEach((element) => (element.style.display = "none"));
+
+				const header = document.querySelector(".header");
+				header.style.paddingBottom = "0px";
+
+				main.classList.replace("main", "mainProfilePages");
 
 				const photo = mediatypeFactory.createMediatype("image");
 				const imagesArticles = photo.createPhoto(photographers[i].id, photographers[i].name.split(" ")[0]);
@@ -111,73 +117,78 @@ const displayPhotographerPage = () => {
 				const video = mediatypeFactory.createMediatype("video");
 				const videoArticles = video.createVideo(photographers[i].id, photographers[i].name.split(" ")[0]);
 
-				const photographerPage = `
-				<button class="contactButton" id="myBtn">Contactez-moi</button>
-				<div class="photographInfos">
-				<h1 class="photographInfos__name">${photographers[i].name}</h1>
-				<p class="photographInfos__city">${photographers[i].city}</p>
-				<br />
-				<p class="photographInfos__tagline">${photographers[i].tagline}</p>
-				<p class="photographInfos__tags">${photographers[i].tags.map((tag) => `<button class=" tag">#${tag}</button>`).join("")}</p>
-
-				<img src="img/Photographers_ID_Photos/${photographers[i].portrait}" alt=""></img>
-				</div>
-
-				<div class="filter-box">
-				<p>Trier par :</p>
-					<div class="button-dropdown"> 
-						<select id="selector">
-							<option id="poplarity" value="Popularité">Popularité</option>
-							<option id="date" value="Date">Date</option>
-							<option id="title" value="Titre">Titre</option>
-						</select>
+				const photographerPage = `				
+				<section class="photographInfos">
+					<div class="photographInfos__textualInfos">
+						<h1 class="photographInfos__name">${photographers[i].name}</h1>
+						<p class="photographInfos__city">${photographers[i].city}</p>
+						<p class="photographInfos__tagline photographInfos__tagline--greyed">${photographers[i].tagline}</p>
+						<p class="photographInfos__tags">${photographers[i].tags.map((tag) => `<button class="photographInfos__tag">#${tag}</button>`).join("")}</p>
 					</div>
-				</div>
+					<button class="contactButton" id="myBtn">Contactez-moi</button>			
+					<img class="photographInfos__img" src="img/Photographers_ID_Photos/${photographers[i].portrait}" alt="" />
+				</section>
+			
 
-				<section>${imagesArticles}${videoArticles}</section>
-
-                <div class="bottom-info"><span class="photographer_totalLikes"></span><i class="fas fa-heart"></i><span class="photographer_price">${photographers[i].price}€/jour</span></div>
-				
+				<button tabindex="-1" class="dropdown">
+					<li role="button" aria-labelledby="dropdown-label" id="dropdown__selected" tabindex="0">Popularité</li>
+					<i class="fas fa-angle-up arrowSort dropdown__arrow"></i>
+					<li aria-expanded="false" role="list" class="dropdown__list-container">
+						<ul class="dropdown__list">
+							<li class="dropdown__list-item" tabindex="0" id="option-1">Popularité</li>
+							<hr>
+							<li class="dropdown__list-item" tabindex="0" id="option-2">Date</li>
+							<hr>
+							<li class="dropdown__list-item" tabindex="0" id="option-3">Titre</li>
+						</ul>
+					</li>
+				</button>				
+	
+				<section class="articles-section">${imagesArticles}${videoArticles}</section>
+	
+				<div class="bottom-info"><span class="photographer_totalLikes"></span><i class="fas fa-heart"></i><span class="photographer_price">${photographers[i].price}€/jour</span></div>
+	
 				<div class="modal-contact" id="myModal">
-				<div class="modal-contact__content">
-					<header>
-						<h2 class="modal-contact__title">
-							Contactez-moi <br />
-							${photographers[i].name}
-						</h2>
-					</header>
-					<span class="modal-contact__close">&times;</span>
-					<div class="modal-contact__body">
-						<form id="form" name="reserve" action="index.html" method="get">
-							<div class="modal-contact__formData">
-								<label for="first">Prénom</label><br />
-								<input class="modal-contact__inputs" type="text" id="first" name="first" minlength="2" /><br />
-							</div>
-							<div class="modal-contact__formData">
-								<label for="last">Nom</label><br />
-								<input class="modal-contact__inputs" type="text" id="last" name="last" /><br />
-							</div>
-							<div class="modal-contact__formData">
-								<label for="email">E-mail</label><br />
-								<input class="modal-contact__inputs" type="email" id="email" name="email" /><br />
-								<span id="errorMsgMail"></span>
-							</div>
-							<div class="modal-contact__formData">
-								<label for="last">Votre message</label><br />
-								<input class="modal-contact__inputs modal-contact__inputs--higher" type="text" name="last" /><br />
-							</div>
-							<input class="btn-submit modal-contact__submitButton" type="submit" value="Envoyer" />
-						</form>
+					<div class="modal-contact__content">
+						<header>
+							<h2 class="modal-contact__title">
+								Contactez-moi <br />
+								${photographers[i].name}
+							</h2>
+						</header>
+						<span class="modal-contact__close">&times;</span>
+						<div class="modal-contact__body">
+							<form id="form" name="reserve" action="index.html" method="get">
+								<div class="modal-contact__formData">
+									<label for="first">Prénom</label><br />
+									<input class="modal-contact__inputs" type="text" id="first" name="first" minlength="2" /><br />
+								</div>
+								<div class="modal-contact__formData">
+									<label for="last">Nom</label><br />
+									<input class="modal-contact__inputs" type="text" id="last" name="last" /><br />
+								</div>
+								<div class="modal-contact__formData">
+									<label for="email">E-mail</label><br />
+									<input class="modal-contact__inputs" type="email" id="email" name="email" /><br />
+									<span id="errorMsgMail"></span>
+								</div>
+								<div class="modal-contact__formData">
+									<label for="last">Votre message</label><br />
+									<input class="modal-contact__inputs modal-contact__inputs--higher" type="text" name="last" /><br />
+								</div>
+								<input class="btn-submit modal-contact__submitButton" type="submit" value="Envoyer" />
+							</form>
+						</div>
 					</div>
-				</div>
-			</div>
+				</div>							
 				`;
-				mainHome.innerHTML = photographerPage;
+				main.innerHTML = photographerPage;
 
 				popularityFilter(); // Trie par défaut par popularité
 				callFilters(); // Appelle les filtres
 				incrementLikes();
 				modalGestion();
+				fancyboxOptions();
 			});
 		}
 	});

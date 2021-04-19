@@ -60,13 +60,8 @@
 		}
 	}
 	&__submitButton {
-		height: 35px;
-		width: 170px;
-		background-color: $primary-color;
-		color: white;
+		@include buttons-style;
 		margin-top: 10px;
-		border-radius: 5px;
-		border: transparent;
 		display: block;
 		margin-left: auto;
 		margin-right: auto;

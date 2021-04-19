@@ -23,14 +23,14 @@ export function likeCount() {
 }
 
 export const incrementLikes = () => {
-	const likeButtonsList = document.querySelectorAll(".likeButton"); //récupère tout les buttons likes
+	const likeButtonsList = document.querySelectorAll(".media__likeButton"); //récupère tout les buttons likes
 
 	let arrayOfAllLikes = []; //initialise un tableau pour contenir le nombre de likes de chaque media
 
 	likeButtonsList.forEach((button, i) => {
 		likeButtonsList[i].addEventListener("click", () => {
 			const isLiked = likeButtonsList[i].classList.toggle("liked"); //On ajoute/retire la classe liked au clic
-			const oldValue = document.querySelectorAll(".likeNumber"); //on récupère le nombre de likes de base
+			const oldValue = document.querySelectorAll(".media__likeNumber"); //on récupère le nombre de likes de base
 
 			if (isLiked) {
 				//Si isLiked = true, on ajoute 1 à la valeur de base
@@ -44,7 +44,7 @@ export const incrementLikes = () => {
 				// spanLikes.innerHTML = sumLikes - 1;
 			}
 		});
-		let totalLikes = parseInt(document.querySelectorAll(".likeNumber")[i].innerText); // on récupère le nombre de likes de chaques media
+		let totalLikes = parseInt(document.querySelectorAll(".media__likeNumber")[i].innerText); // on récupère le nombre de likes de chaques media
 		arrayOfAllLikes.push(totalLikes); //on met les likes dans le tableau
 	});
 
