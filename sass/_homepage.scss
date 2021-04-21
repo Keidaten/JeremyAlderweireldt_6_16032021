@@ -1,17 +1,14 @@
 //help on scroll
 .scrollHelp {
+	@include buttons-style;
 	position: fixed;
 	top: 5px;
 	right: 50%;
 	left: 50%;
 	text-align: center;
 	font-weight: bold;
-	color: black;
-	width: 170px;
-	height: 30px;
-	line-height: 30px;
+	line-height: 35px;
 	margin-left: -85px;
-	background-color: $secondary-color;
 }
 .--hide {
 	display: none;
@@ -29,94 +26,115 @@ h2 {
 	color: $secondary-color;
 }
 
-//Header
-
-.header {
-	padding: 40px 20px 40px 20px;
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	flex-direction: column;
-	align-items: center;
-	@media screen and (min-width: 345px) and (max-width: 475px) {
-		justify-content: space-between;
-		flex-direction: row;
-	}
-	@media screen and (min-width: 1199px) {
-		flex-direction: row;
-		justify-content: space-evenly;
-	}
-	&__title {
-		font-size: 1rem;
+.homePage {
+	.header {
 		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		margin-bottom: 45px;
 		align-items: center;
-		margin-bottom: 35px;
-		@media screen and (min-width: 1199px) {
-			order: 1;
-			font-size: 2.25rem;
+		@media screen and (max-width: 345px) {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			flex-direction: column;
 		}
-	}
-	&__logo {
-		margin-bottom: 35px;
-		// align-self: self-start;
-		& img {
-			width: 150px;
-			@media screen and (min-width: 1199px) {
-				width: 200px;
+		@media screen and (min-width: 1000px) {
+			margin-bottom: 110px;
+		}
+		&__title {
+			font-size: 1rem;
+			@media screen and (min-width: 1000px) {
+				margin-top: 20px;
+				margin: 20px auto 0 auto;
+				order: 1;
+				font-size: 2.25rem;
+			}
+			@media screen and (min-width: 1335px) {
+				margin: 0 0 0 0;
+			}
+		}
+		&__logo {
+			// margin-bottom: 35px;
+			margin-right: 20px;
+			// align-self: self-start;
+			// flex-basis: 50%;
+			@media screen and (max-width: 345px) {
+				margin-right: 0px;
+			}
+			& img {
+				width: 150px;
+				@media screen and (min-width: 800px) {
+					width: 200px;
+				}
+			}
+		}
+		&__nav {
+			flex-basis: 100%;
+			margin-top: 30px;
+			@media screen and (min-width: 1000px) {
+				margin-top: 0px;
+				flex-basis: auto;
+			}
+		}
+		&__tags {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			justify-content: center;
+		}
+		&__tag {
+			font-weight: 600;
+			font-size: 1rem;
+			@include tags-style;
+			&:hover,
+			&:focus {
+				background: $primary-color;
+				color: white;
+				cursor: pointer;
 			}
 		}
 	}
-	&__tags {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		justify-content: center;
-	}
-	&__tag {
-		font-weight: 600;
-		@include tags-style;
-	}
-}
 
-//Main
-.main {
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	justify-content: center;
-	padding: 20px;
-	.--hide {
-		display: none;
-	}
-	.--show {
-		display: block;
-	}
-	.photographInfos {
+	//Main
+	.main {
 		display: flex;
-		flex-direction: column;
-		text-align: center;
-		flex-basis: 100%;
-		@media screen and (min-width: 900px) {
-			flex-basis: 50%;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: center;
+		.--hide {
+			display: none;
 		}
-		@media screen and (min-width: 1199px) {
-			flex-basis: 33.33333%;
+		.--show {
+			display: block;
 		}
-		&__link {
-			border-radius: 50%;
-			cursor: pointer;
+		.photographInfos {
+			display: flex;
+			flex-direction: column;
+			text-align: center;
+			flex-basis: 100%;
+			@media screen and (min-width: 800px) {
+				flex-basis: 50%;
+			}
+			@media screen and (min-width: 1199px) {
+				flex-basis: 33.33333%;
+			}
+			&__link {
+				border-radius: 50%;
+				cursor: pointer;
+			}
+			&__caption {
+				margin: 15px 0px 28px 0px;
+			}
+			&__tag {
+				@include tags-style;
+			}
 		}
-		&__caption {
-			margin: 15px 0px 28px 0px;
+		.--hide {
+			display: none;
 		}
-		&__tag {
-			@include tags-style;
+		.--show {
+			display: block;
 		}
-	}
-	.--hide {
-		display: none;
-	}
-	.--show {
-		display: block;
 	}
 }

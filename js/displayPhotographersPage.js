@@ -40,18 +40,20 @@ const displayPhotographerPage = () => {
 								.trim();
 							return `
 								<article data-likes="${pic.likes}" data-date="${pic.date}" class="media" data-title="${picsTitle}">
-									<figure><a href="img/${namePhotograph}/${pic.image}" data-fancybox="gallery" data-caption="${picsTitle}"><img class="media__img" src="img/${namePhotograph}/${pic.image}" alt=""></a>
-										<figcaption>
-											<h3 class="media__title">${picsTitle}</h3>
-											<p>${pic.price}€</p>
-                                            <button class="media__likeButton">
-                                                <span class="likes media__likeNumber">${pic.likes}</span>
-                                                <span>
-                                                    <i class="fas fa-heart media__heart"></i>
-                                                </span>
-                                            </button>
-										</figcaption>
-									</figure>
+									<div class="media__content">
+										<figure><a href="img/${namePhotograph}/${pic.image}" data-fancybox="gallery" data-caption="${picsTitle}"><img class="media__thumbnail" src="img/${namePhotograph}/${pic.image}" alt=""></a>
+											<figcaption class="media__infos">
+												<h3 class="media__title">${picsTitle}</h3>
+												<p class="media__price" >${pic.price}€</p>
+												<button class="media__likeButton">
+													<span class="likes media__likeNumber">${pic.likes}</span>
+													<span>
+														<i class="fas fa-heart media__heart"></i>
+													</span>
+												</button>
+											</figcaption>
+										</figure>
+									</div>
 								</article>
 								`;
 						})
@@ -78,15 +80,19 @@ const displayPhotographerPage = () => {
 								.trim();
 							return `
 								<article class="media" data-date="${vid.date}" data-likes="${vid.likes}" data-title="${vidsTitle}">
-                                <a href="img/${namePhotograph}/${vid.video}" data-fancybox="gallery" data-caption="${vidsTitle}"><video><source src="img/${namePhotograph}/${vid.video}" type="video/mp4"></video></a>
-								<h3 class="media__title">${vidsTitle}</h3>
-									<p>${vid.price}€</p>
-                                    <button class="media__likeButton">
-                                        <span class="likes media__likeNumber">${vid.likes}</span>
-                                        <span>
-                                            <i class="fas fa-heart media__heart"></i>
-                                        </span>
-                                    </button>
+								<div class="media__content">
+									<a href="img/${namePhotograph}/${vid.video}" data-fancybox="gallery" data-caption="${vidsTitle}"><video class="media__thumbnail"><source src="img/${namePhotograph}/${vid.video}" type="video/mp4"></video></a>
+									<div class="media__infos">
+										<h3 class="media__title">${vidsTitle}</h3>
+										<p class="media__price">${vid.price}€</p>
+										<button class="media__likeButton">
+											<span class="likes media__likeNumber">${vid.likes}</span>
+											<span>
+												<i class="fas fa-heart media__heart"></i>
+											</span>
+										</button>
+									</div>
+								</div>
 								</article>
 								`;
 						})
@@ -109,7 +115,12 @@ const displayPhotographerPage = () => {
 				const header = document.querySelector(".header");
 				header.style.paddingBottom = "0px";
 
-				main.classList.replace("main", "mainProfilePages");
+				// main.classList.replace("main", "mainProfilePages");
+
+				const body = document.querySelector("body");
+
+				// body.classList.add("profilPages");
+				body.classList.replace("homePage", "profilPages");
 
 				const photo = mediatypeFactory.createMediatype("image");
 				const imagesArticles = photo.createPhoto(photographers[i].id, photographers[i].name.split(" ")[0]);
@@ -129,20 +140,22 @@ const displayPhotographerPage = () => {
 					<img class="photographInfos__img" src="img/Photographers_ID_Photos/${photographers[i].portrait}" alt="" />
 				</section>
 			
-
-				<button tabindex="-1" class="dropdown">
-					<li role="button" aria-labelledby="dropdown-label" id="dropdown__selected" tabindex="0">Popularité</li>
-					<i class="fas fa-angle-up arrowSort dropdown__arrow"></i>
-					<li aria-expanded="false" role="list" class="dropdown__list-container">
-						<ul class="dropdown__list">
-							<li class="dropdown__list-item" tabindex="0" id="option-1">Popularité</li>
-							<hr>
-							<li class="dropdown__list-item" tabindex="0" id="option-2">Date</li>
-							<hr>
-							<li class="dropdown__list-item" tabindex="0" id="option-3">Titre</li>
-						</ul>
-					</li>
-				</button>				
+				<div class="sortingBox">
+					<span>Trier par</span>
+					<ul tabindex="-1" class="dropdown">
+						<li role="button" aria-labelledby="dropdown-label" id="dropdown__selected" tabindex="0">Popularité</li>
+						<i class="fas fa-angle-up arrowSort dropdown__arrow"></i>
+						<li aria-expanded="false" role="list" class="dropdown__list-container">
+							<ul class="dropdown__list">
+								<li class="dropdown__list-item" tabindex="0" id="option-1">Popularité</li>
+								<hr>
+								<li class="dropdown__list-item" tabindex="0" id="option-2">Date</li>
+								<hr>
+								<li class="dropdown__list-item" tabindex="0" id="option-3">Titre</li>
+							</ul>
+						</li>
+					</ul>	
+				</div>			
 	
 				<section class="articles-section">${imagesArticles}${videoArticles}</section>
 	
@@ -174,7 +187,7 @@ const displayPhotographerPage = () => {
 								</div>
 								<div class="modal-contact__formData">
 									<label for="last">Votre message</label><br />
-									<input class="modal-contact__inputs modal-contact__inputs--higher" type="text" name="last" /><br />
+									<textarea class="modal-contact__inputs modal-contact__inputs--higher"/></textarea>
 								</div>
 								<input class="btn-submit modal-contact__submitButton" type="submit" value="Envoyer" />
 							</form>
