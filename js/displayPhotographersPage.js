@@ -5,7 +5,7 @@ import { incrementLikes } from "/js/likesCount.js";
 import { modalGestion } from "/js/modal-contact.js";
 import { fancyboxOptions } from "/js/fancyboxOptions.js";
 
-const displayPhotographerPage = () => {
+export const displayPhotographerPage = () => {
 	getData().then((data) => {
 		const photographers = data.photographers;
 		const mediaData = data.media;
@@ -41,14 +41,14 @@ const displayPhotographerPage = () => {
 							return `
 								<article data-likes="${pic.likes}" data-date="${pic.date}" class="media" data-title="${picsTitle}">
 									<div class="media__content">
-										<figure><a href="img/${namePhotograph}/${pic.image}" data-fancybox="gallery" data-caption="${picsTitle}"><img class="media__thumbnail" src="img/${namePhotograph}/${pic.image}" alt=""></a>
+										<figure><a href="img/${namePhotograph}/${pic.image}"  title="${picsTitle} zoom galery" data-fancybox="gallery" data-caption="${picsTitle}"><img class="media__thumbnail" src="img/${namePhotograph}/${pic.image}" alt="${picsTitle}"></a>
 											<figcaption class="media__infos">
-												<h3 class="media__title">${picsTitle}</h3>
+												<p class="media__title">${picsTitle}</p>
 												<p class="media__price" >${pic.price}€</p>
 												<button class="media__likeButton">
 													<span class="likes media__likeNumber">${pic.likes}</span>
 													<span>
-														<i class="fas fa-heart media__heart"></i>
+														<span class="fas fa-heart media__heart" aria-label=”likes”></span>
 													</span>
 												</button>
 											</figcaption>
@@ -83,12 +83,12 @@ const displayPhotographerPage = () => {
 								<div class="media__content">
 									<a href="img/${namePhotograph}/${vid.video}" data-fancybox="gallery" data-caption="${vidsTitle}"><video class="media__thumbnail"><source src="img/${namePhotograph}/${vid.video}" type="video/mp4"></video></a>
 									<div class="media__infos">
-										<h3 class="media__title">${vidsTitle}</h3>
+										<p class="media__title">${vidsTitle}</p>
 										<p class="media__price">${vid.price}€</p>
 										<button class="media__likeButton">
 											<span class="likes media__likeNumber">${vid.likes}</span>
 											<span>
-												<i class="fas fa-heart media__heart"></i>
+												<span class="fas fa-heart media__heart" aria-label=”likes”></span>
 											</span>
 										</button>
 									</div>
@@ -106,11 +106,13 @@ const displayPhotographerPage = () => {
 
 		//Boucle sur les photographes
 		for (let i = 0; i < photographers.length; i++) {
-			const photographAchor = document.getElementsByClassName("photographInfos__img");
+			const photographAchor = document.getElementsByClassName("photographInfos__link");
 
+			//ACT ON CLICK
 			photographAchor[i].addEventListener("click", function () {
-				const unWantedElements = document.querySelectorAll(".header__title, .header__nav, .scrollHelp"); //get element to hide
-				unWantedElements.forEach((element) => (element.style.display = "none"));
+				const unWantedElements = document.querySelectorAll(".header__title, .header__nav"); //get element to hide
+				// unWantedElements.forEach((element) => (element.style.display = "none"));
+				unWantedElements.forEach((unWantedElement) => unWantedElement.parentNode.removeChild(unWantedElement));
 
 				const header = document.querySelector(".header");
 				header.style.paddingBottom = "0px";
@@ -131,20 +133,20 @@ const displayPhotographerPage = () => {
 				const photographerPage = `				
 				<section class="photographInfos">
 					<div class="photographInfos__textualInfos">
-						<h1 class="photographInfos__name">${photographers[i].name}</h1>
-						<p class="photographInfos__city">${photographers[i].city}</p>
-						<p class="photographInfos__tagline photographInfos__tagline--greyed">${photographers[i].tagline}</p>
-						<p class="photographInfos__tags">${photographers[i].tags.map((tag) => `<button class="photographInfos__tag">#${tag}</button>`).join("")}</p>
+						<h1 class="photographInfos__name" tabindex="0">${photographers[i].name}</h1>
+						<p class="photographInfos__city" tabindex="0">${photographers[i].city}</p>
+						<p class="photographInfos__tagline photographInfos__tagline--greyed" tabindex="0">${photographers[i].tagline}</p>
+						<p class="photographInfos__tags">${photographers[i].tags.map((tag) => `<button class="photographInfos__tag photographInfos__tag--lockhover"><span class="sr-only">Tag</span>#${tag}</button>`).join("")}</p>
 					</div>
-					<button class="contactButton" id="myBtn">Contactez-moi</button>			
-					<img class="photographInfos__img" src="img/Photographers_ID_Photos/${photographers[i].portrait}" alt="" />
+					<button class="contactButton" id="myBtn" aria-label="Me contacter">Contactez-moi</button>			
+					<img class="photographInfos__img" src="img/Photographers_ID_Photos/${photographers[i].portrait}" alt=""/>
 				</section>
-			
+
 				<div class="sortingBox">
-					<span>Trier par</span>
+					<span id="sortMedias">Trier par</span>
 					<ul tabindex="-1" class="dropdown">
-						<li role="button" aria-labelledby="dropdown-label" id="dropdown__selected" tabindex="0">Popularité</li>
-						<i class="fas fa-angle-up arrowSort dropdown__arrow"></i>
+						<li role="button" aria-labelledby="sortMedias" id="dropdown__selected" tabindex="0">Popularité</li>
+						<span class="fas fa-angle-up arrowSort dropdown__arrow"></span>
 						<li aria-expanded="false" role="list" class="dropdown__list-container">
 							<ul class="dropdown__list">
 								<li class="dropdown__list-item" tabindex="0" id="option-1">Popularité</li>
@@ -159,41 +161,41 @@ const displayPhotographerPage = () => {
 	
 				<section class="articles-section">${imagesArticles}${videoArticles}</section>
 	
-				<div class="bottom-info"><span class="photographer_totalLikes"></span><i class="fas fa-heart"></i><span class="photographer_price">${photographers[i].price}€/jour</span></div>
+				<div class="bottom-info"><span class="photographer_totalLikes"></span><span class="fas fa-heart"></span><span class="photographer_price">${photographers[i].price}€/jour</span></div>
 	
-				<div class="modal-contact" id="myModal">
+				<dialog class="modal-contact" id="myModal" aria-labelledby="headingModal">
 					<div class="modal-contact__content">
 						<header>
-							<h2 class="modal-contact__title">
+							<h2 tabindex="0" class="modal-contact__title" id="headingModal">
 								Contactez-moi <br />
 								${photographers[i].name}
 							</h2>
 						</header>
-						<span class="modal-contact__close">&times;</span>
 						<div class="modal-contact__body">
 							<form id="form" name="reserve" action="index.html" method="get">
 								<div class="modal-contact__formData">
-									<label for="first">Prénom</label><br />
-									<input class="modal-contact__inputs" type="text" id="first" name="first" minlength="2" /><br />
+									<label for="first" id="firstname">Prénom</label><br />
+									<input class="modal-contact__inputs" aria-labelledby="firstname" type="text" id="first" name="first" minlength="2" /><br />
 								</div>
 								<div class="modal-contact__formData">
-									<label for="last">Nom</label><br />
-									<input class="modal-contact__inputs" type="text" id="last" name="last" /><br />
+									<label for="last" id="lastname">Nom</label><br />
+									<input class="modal-contact__inputs" aria-labelledby="lastname" type="text" id="last" name="last" /><br />
 								</div>
 								<div class="modal-contact__formData">
-									<label for="email">E-mail</label><br />
-									<input class="modal-contact__inputs" type="email" id="email" name="email" /><br />
+									<label for="email" id="emailAria">E-mail</label><br />
+									<input class="modal-contact__inputs" aria-labelledby="emailAria" type="email" id="email" name="email" /><br />
 									<span id="errorMsgMail"></span>
 								</div>
 								<div class="modal-contact__formData">
-									<label for="last">Votre message</label><br />
-									<textarea class="modal-contact__inputs modal-contact__inputs--higher"/></textarea>
+									<label for="message" id="messageAria">Votre message</label><br />
+									<textarea class="modal-contact__inputs modal-contact__inputs--higher" id="message" aria-labelledby="messageAria"/></textarea>
 								</div>
-								<input class="btn-submit modal-contact__submitButton" type="submit" value="Envoyer" />
+								<input class="btn-submit modal-contact__submitButton" type="submit" value="Envoyer" aria-label="Envoyer" />
 							</form>
 						</div>
+						<span class="modal-contact__close" tabindex="0" aria-label="Fermer">&times;</span>
 					</div>
-				</div>							
+				</dialog>							
 				`;
 				main.innerHTML = photographerPage;
 
@@ -203,13 +205,18 @@ const displayPhotographerPage = () => {
 				modalGestion();
 				fancyboxOptions();
 			});
+
+			//ACT ON ENTER KEY
+			photographAchor[i].addEventListener("keydown", function (e) {
+				if (e.code == "Enter") {
+					photographAchor[i].click(); //Trigger search button click event
+				}
+			});
 		}
+		// const photographLinks = document.querySelectorAll(".photographInfos__link");
+		// console.log(photographLinks);
+		// photographLinks.addEventListener("keypress", function () {});
 	});
 };
 
 displayPhotographerPage();
-
-$(document).on("click", "[data-toggle='lightbox']", function (event) {
-	event.preventDefault();
-	$(this).ekkoLightbox();
-});

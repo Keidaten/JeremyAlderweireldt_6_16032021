@@ -1,22 +1,33 @@
-export const modalGestion = () => {
+const modalDisplay = () => {
 	// // Get the modal
 	const modal = document.getElementById("myModal");
 
+	const open = document.getElementById("myBtn");
 	// // Get the button that opens the modal
-	const btn = document.getElementById("myBtn");
 
 	// // Get the <span> element that closes the modal
-	const span = document.getElementsByClassName("modal-contact__close")[0];
+	const close = document.getElementsByClassName("modal-contact__close")[0];
 
 	// // When the user clicks on the button, open the modal
-	btn.onclick = function () {
+	open.onclick = function () {
 		modal.style.display = "block";
+		modal.classList.add("modal-visible");
+		const firstTabModal = document.querySelector("#headingModal");
+		console.log(firstTabModal);
+		firstTabModal.focus();
 	};
 
 	// // When the user clicks on <span> (x), close the modal
-	span.onclick = function () {
+	close.onclick = function () {
 		modal.style.display = "none";
 	};
+
+	// Listen enter too
+	close.addEventListener("keydown", function (e) {
+		if (e.code == "Enter") {
+			close.click(); //Trigger search button click event
+		}
+	});
 
 	// // When the user clicks anywhere outside of the modal, close it
 	window.onclick = function (event) {
@@ -34,7 +45,14 @@ export const modalGestion = () => {
 		inputs.forEach((input) => {
 			console.log(input.value);
 		});
+		document.querySelector(".photographInfos__name").focus();
 	}
 
 	form.addEventListener("submit", validate);
 };
+
+export const modalGestion = () => {
+	modalDisplay();
+};
+
+//Trap focus to modal

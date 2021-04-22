@@ -162,6 +162,12 @@ export function callFilters() {
 			dateFilter();
 		}
 	});
+
+	document.querySelector(".dropdown").addEventListener("keydown", function (e) {
+		if (e.keyCode == 13) {
+			document.querySelector(".dropdown").click(); //Trigger search button click event
+		}
+	});
 }
 
 // Style box

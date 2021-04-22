@@ -10,35 +10,47 @@
 		<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital@0;1&display=swap" rel="stylesheet" />
 		<link rel="stylesheet" href="/css/style.css" />
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" crossorigin="anonymous"></script>
-		<!-- fancybox -->
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
 		<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
-
 		<title>FishEye</title>
 	</head>
 	<body class="homePage">
-		<a href="#main" tabindex="1"><span id="scrollHelp" class="scrollHelp --hide">Passer au contenu</span></a>
+		<a role="link" href="#main" id="scrollHelp" class="scrollHelp --hide">Passer au contenu</a>
 		<header class="header">
-			<a class="header__logo" href="index.html" tabindex="2">
-				<img src="./img/logo.svg" alt="Fisheye home page" />
+			<a class="header__logo" href="index.html">
+				<img src="./img/logo.svg" alt="Fisheye Home page" />
 			</a>
-			<h1 class="header__title" tabindex="11">Nos photographes</h1>
-			<nav class="header__nav" aria-label="photographer categories">
+			<h1 class="header__title" tabindex="0">Nos photographes</h1>
+			<nav class="header__nav" aria-label="filtrer les photographes par thème">
 				<ul class="header__tags">
-					<li><button tabindex="3" class="header__tag tag" id="portrait" data-filter="portrait">#Portrait</button></li>
-					<li><button tabindex="4" class="header__tag tag" id="art" data-filter="art">#Art</button></li>
-					<li><button tabindex="5" class="header__tag tag" id="fashion" data-filter="fashion">#Fashion</button></li>
-					<li><button tabindex="6" class="header__tag tag" id="architecture" data-filter="architecture">#Architecture</button></li>
-					<li><button tabindex="7" class="header__tag tag" id="travel" data-filter="travel">#Travel</button></li>
-					<li><button tabindex="8" class="header__tag tag" id="sport" data-filter="sport">#Sport</button></li>
-					<li><button tabindex="9" class="header__tag tag" id="animals" data-filter="animals">#Animals</button></li>
-					<li><button tabindex="10" class="header__tag tag" id="events" data-filter="events">#Events</button></li>
+					<li>
+						<button class="header__tag filterTags tag" id="portrait" data-filter="portrait"><span class="sr-only">Tag</span>#Portrait</button>
+					</li>
+					<li>
+						<button class="header__tag filterTags tag" id="art" data-filter="art"><span class="sr-only">Tag</span>#Art</button>
+					</li>
+					<li>
+						<button class="header__tag filterTags tag" id="fashion" data-filter="fashion"><span class="sr-only">Tag</span>#Fashion</button>
+					</li>
+					<li>
+						<button class="header__tag filterTags tag" id="architecture" data-filter="architecture"><span class="sr-only">Tag</span>#Architecture</button>
+					</li>
+					<li>
+						<button class="header__tag filterTags tag" id="travel" data-filter="travel"><span class="sr-only">Tag</span>#Travel</button>
+					</li>
+					<li>
+						<button class="header__tag filterTags tag" id="sport" data-filter="sport"><span class="sr-only">Tag</span>#Sport</button>
+					</li>
+					<li>
+						<button class="header__tag filterTags tag" id="animals" data-filter="animals"><span class="sr-only">Tag</span>#Animals</button>
+					</li>
+					<li>
+						<button class="header__tag filterTags tag" id="events" data-filter="events"><span class="sr-only">Tag</span>#Events</button>
+					</li>
 				</ul>
 			</nav>
 		</header>
-
 		<main class="main" id="main"></main>
-
 		<script src="js/index.js" type="module"></script>
 	</body>
 </html>
