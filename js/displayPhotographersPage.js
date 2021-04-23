@@ -81,7 +81,7 @@ export const displayPhotographerPage = () => {
 							return `
 								<article class="media" data-date="${vid.date}" data-likes="${vid.likes}" data-title="${vidsTitle}">
 								<div class="media__content">
-									<a href="img/${namePhotograph}/${vid.video}" data-fancybox="gallery" data-caption="${vidsTitle}"><video class="media__thumbnail"><source src="img/${namePhotograph}/${vid.video}" type="video/mp4"></video></a>
+									<a href="img/${namePhotograph}/${vid.video}" data-fancybox="gallery" data-caption="${vidsTitle}"><video title="${vidsTitle}" class="media__thumbnail"><source src="img/${namePhotograph}/${vid.video}" type="video/mp4"></video></a>
 									<div class="media__infos">
 										<p class="media__title">${vidsTitle}</p>
 										<p class="media__price">${vid.price}€</p>
