@@ -1,9 +1,9 @@
-import { getData } from "/js/dataFetched.js";
-import { callFilters } from "/js/filterPhotographerPage.js";
-import { popularityFilter } from "/js/filterPhotographerPage.js";
-import { incrementLikes } from "/js/likesCount.js";
-import { modalGestion } from "/js/modal-contact.js";
-import { fancyboxOptions } from "/js/fancyboxOptions.js";
+import { getData } from "./dataFetched.js";
+import { callFilters } from "./filterPhotographerPage.js";
+import { popularityFilter } from "./filterPhotographerPage.js";
+import { incrementLikes } from "./likesCount.js";
+import { modalGestion } from "./modal-contact.js";
+import { fancyboxOptions } from "./fancyboxOptions.js";
 
 export const displayPhotographerPage = () => {
 	getData().then((data) => {
@@ -41,7 +41,7 @@ export const displayPhotographerPage = () => {
 							return `
 								<article data-likes="${pic.likes}" data-date="${pic.date}" class="media" data-title="${picsTitle}">
 									<div class="media__content">
-										<figure><a href="img/${namePhotograph}/${pic.image}"  title="${picsTitle} zoom galery" data-fancybox="gallery" data-caption="${picsTitle}"><img class="media__thumbnail" src="img/${namePhotograph}/${pic.image}" alt="${picsTitle}"></a>
+										<figure><a href="img/${namePhotograph}/${pic.image}"  aria-label="${picsTitle} : Cliquez pour zoomer" data-fancybox="gallery" data-caption="${picsTitle}"><img class="media__thumbnail" src="img/${namePhotograph}/${pic.image}" alt="${picsTitle}"></a>
 											<figcaption class="media__infos">
 												<p class="media__title">${picsTitle}</p>
 												<p class="media__price" >${pic.price}€</p>
@@ -81,7 +81,7 @@ export const displayPhotographerPage = () => {
 							return `
 								<article class="media" data-date="${vid.date}" data-likes="${vid.likes}" data-title="${vidsTitle}">
 								<div class="media__content">
-									<a href="img/${namePhotograph}/${vid.video}" data-fancybox="gallery" data-caption="${vidsTitle}"><video title="${vidsTitle}" class="media__thumbnail"><source src="img/${namePhotograph}/${vid.video}" type="video/mp4"></video></a>
+									<a href="img/${namePhotograph}/${vid.video}" data-fancybox="gallery" data-caption="${vidsTitle}" aria-label="${vidsTitle} : Cliquez pour zoomer"><video title="${vidsTitle}" class="media__thumbnail"><source src="img/${namePhotograph}/${vid.video}" type="video/mp4"></video></a>
 									<div class="media__infos">
 										<p class="media__title">${vidsTitle}</p>
 										<p class="media__price">${vid.price}€</p>

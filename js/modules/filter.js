@@ -1,4 +1,4 @@
-import { getData } from "/js/dataFetched.js";
+import { getData } from "./dataFetched.js";
 
 getData().then(() => {
 	const filters = document.querySelectorAll(".filterTags");
