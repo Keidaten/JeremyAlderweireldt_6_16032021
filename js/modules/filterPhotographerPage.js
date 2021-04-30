@@ -7,14 +7,13 @@
 // 								  si localcompare = 1, il classe le b avant le a
 //Pour chaque titre du tableau, on récupère la section la plus proche, et on lui envoie l'article qui contient le titre
 
+//FILTER BY TITLE
 const titleFilter = () => {
 	let articleTitle = document.querySelectorAll(".media__title");
 	Array.from(articleTitle)
 		.sort((a, b) => a.innerText.toLowerCase().localeCompare(b.innerText.toLowerCase()))
 		.forEach((el) => el.closest("section").appendChild(el.closest("article")));
 };
-
-//arr.sort(fonctionComparaison)
 
 //FILTER BY LIKES
 export const popularityFilter = () => {
@@ -24,6 +23,7 @@ export const popularityFilter = () => {
 		.forEach((el) => el.parentNode.appendChild(el)); //on vise "section" avec parentNode
 };
 
+//FILTER BY DATE
 export const dateFilter = () => {
 	let articleDate = document.querySelectorAll("[data-date]");
 	Array.from(articleDate)
@@ -43,7 +43,6 @@ const styleSortBox = () => {
 	const UP_ARROW_KEY_CODE = 38;
 	const ESCAPE_KEY_CODE = 27;
 
-	// const button = document.querySelector(".dropdown");
 	const list = document.querySelector(".dropdown__list");
 	const listContainer = document.querySelector(".dropdown__list-container");
 	const dropdownArrow = document.querySelector(".dropdown__arrow");
@@ -51,10 +50,12 @@ const styleSortBox = () => {
 	const dropdownSelectedNode = document.querySelector("#dropdown__selected");
 	const listItemIds = [];
 
+	//
 	dropdownSelectedNode.addEventListener("click", (e) => toggleListVisibility(e));
 	dropdownArrow.addEventListener("click", (e) => toggleListVisibility(e));
 	dropdownSelectedNode.addEventListener("keydown", (e) => toggleListVisibility(e));
 
+	// Ajoute chaque id des items list au tableau
 	listItems.forEach((item) => listItemIds.push(item.id));
 
 	listItems.forEach((item) => {
@@ -70,14 +71,6 @@ const styleSortBox = () => {
 					closeList();
 					return;
 
-				case DOWN_ARROW_KEY_CODE:
-					focusNextListItem(DOWN_ARROW_KEY_CODE);
-					return;
-
-				case UP_ARROW_KEY_CODE:
-					focusNextListItem(UP_ARROW_KEY_CODE);
-					return;
-
 				case ESCAPE_KEY_CODE:
 					closeList();
 					return;
@@ -88,20 +81,23 @@ const styleSortBox = () => {
 		});
 	});
 
+	//Récupère l'élément cliqué et l'actualise en tant qu'item selectionné
 	function setSelectedListItem(e) {
 		let selectedTextToAppend = document.createTextNode(e.target.innerText);
 		dropdownSelectedNode.innerHTML = null;
 		dropdownSelectedNode.appendChild(selectedTextToAppend);
 	}
 
+	//Ferme la liste : retire les classes oen, expanded et aria expanded
 	function closeList() {
 		list.classList.remove("open");
 		dropdownArrow.classList.remove("expanded");
 		listContainer.setAttribute("aria-expanded", false);
 	}
 
+	//Agit selon la touche utilisée
 	function toggleListVisibility(e) {
-		let openDropDown = SPACEBAR_KEY_CODE.includes(e.keyCode) || e.keyCode === ENTER_KEY_CODE;
+		let openDropDown = e.keyCode === ENTER_KEY_CODE;
 
 		if (e.keyCode === ESCAPE_KEY_CODE) {
 			closeList();
@@ -112,43 +108,12 @@ const styleSortBox = () => {
 			dropdownArrow.classList.toggle("expanded");
 			listContainer.setAttribute("aria-expanded", list.classList.contains("open"));
 		}
-
-		if (e.keyCode === DOWN_ARROW_KEY_CODE) {
-			focusNextListItem(DOWN_ARROW_KEY_CODE);
-		}
-
-		if (e.keyCode === UP_ARROW_KEY_CODE) {
-			focusNextListItem(UP_ARROW_KEY_CODE);
-		}
-	}
-
-	function focusNextListItem(direction) {
-		const activeElementId = document.activeElement.id;
-		if (activeElementId === "dropdown__selected") {
-			document.querySelector(`#${listItemIds[0]}`).focus();
-		} else {
-			const currentActiveElementIndex = listItemIds.indexOf(activeElementId);
-			if (direction === DOWN_ARROW_KEY_CODE) {
-				const currentActiveElementIsNotLastItem = currentActiveElementIndex < listItemIds.length - 1;
-				if (currentActiveElementIsNotLastItem) {
-					const nextListItemId = listItemIds[currentActiveElementIndex + 1];
-					document.querySelector(`#${nextListItemId}`).focus();
-				}
-			} else if (direction === UP_ARROW_KEY_CODE) {
-				const currentActiveElementIsNotFirstItem = currentActiveElementIndex > 0;
-				if (currentActiveElementIsNotFirstItem) {
-					const nextListItemId = listItemIds[currentActiveElementIndex - 1];
-					document.querySelector(`#${nextListItemId}`).focus();
-				}
-			}
-		}
 	}
 };
 
 // CALL FILTERS BY SELECTED OPTION
 export function callFilters() {
 	styleSortBox();
-
 	document.querySelector(".dropdown").addEventListener("click", function () {
 		const filterValue = document.getElementById("dropdown__selected").innerText;
 		console.log(filterValue);
@@ -162,7 +127,6 @@ export function callFilters() {
 			dateFilter();
 		}
 	});
-
 	document.querySelector(".dropdown").addEventListener("keydown", function (e) {
 		if (e.keyCode == 13) {
 			document.querySelector(".dropdown").click(); //Trigger search button click event

@@ -4,6 +4,7 @@ import { popularityFilter } from "./filterPhotographerPage.js";
 import { incrementLikes } from "./likesCount.js";
 import { modalGestion } from "./modal-contact.js";
 import { fancyboxOptions } from "./fancyboxOptions.js";
+import { homeToProfilePage } from "./photographersPageReform.js";
 
 export const displayPhotographerPage = () => {
 	getData().then((data) => {
@@ -67,7 +68,7 @@ export const displayPhotographerPage = () => {
 			constructor() {
 				this._type = "video";
 				this.createVideo = function (IDphotograph, namePhotograph) {
-					let getVideos = mediaData.filter((medias) => medias["photographerId"] == IDphotograph && "video" in medias);
+					let getVideos = mediaData.filter((medias) => medias["photographerId"] == IDphotograph && "video" in medias); //get videos relative to the right photographer
 					const photographerVids = getVideos
 						.map((vid) => {
 							const vidsTitle = vid.video
@@ -104,32 +105,26 @@ export const displayPhotographerPage = () => {
 
 		const mediatypeFactory = new MediatypeFactory();
 
-		//Boucle sur les photographes
+		//	 						   //
+		// Boucle sur les photographes //
+		//	 						  //
+
 		for (let i = 0; i < photographers.length; i++) {
+			//On récupère les ancres de chaques photographes de la home page
 			const photographAchor = document.getElementsByClassName("photographInfos__link");
 
-			//ACT ON CLICK
+			//On écoute le clique sur ces ancres
 			photographAchor[i].addEventListener("click", function () {
-				const unWantedElements = document.querySelectorAll(".header__title, .header__nav"); //get element to hide
-				// unWantedElements.forEach((element) => (element.style.display = "none"));
-				unWantedElements.forEach((unWantedElement) => unWantedElement.parentNode.removeChild(unWantedElement));
+				homeToProfilePage();
 
-				const header = document.querySelector(".header");
-				header.style.paddingBottom = "0px";
-
-				// main.classList.replace("main", "mainProfilePages");
-
-				const body = document.querySelector("body");
-
-				// body.classList.add("profilPages");
-				body.classList.replace("homePage", "profilPages");
-
+				//Medias creation
 				const photo = mediatypeFactory.createMediatype("image");
 				const imagesArticles = photo.createPhoto(photographers[i].id, photographers[i].name.split(" ")[0]);
 
 				const video = mediatypeFactory.createMediatype("video");
 				const videoArticles = video.createVideo(photographers[i].id, photographers[i].name.split(" ")[0]);
 
+				//Page creation
 				const photographerPage = `				
 				<section class="photographInfos">
 					<div class="photographInfos__textualInfos">
@@ -141,28 +136,24 @@ export const displayPhotographerPage = () => {
 					<button class="contactButton" id="myBtn" aria-label="Me contacter">Contactez-moi</button>			
 					<img class="photographInfos__img" src="img/Photographers_ID_Photos/${photographers[i].portrait}" alt=""/>
 				</section>
-
 				<div class="sortingBox">
 					<span id="sortMedias">Trier par</span>
-					<ul tabindex="-1" class="dropdown">
+					<ul class="dropdown">
 						<li role="button" aria-labelledby="sortMedias" id="dropdown__selected" tabindex="0">Popularité</li>
 						<span class="fas fa-angle-up arrowSort dropdown__arrow"></span>
 						<li aria-expanded="false" role="list" class="dropdown__list-container">
 							<ul class="dropdown__list">
-								<li class="dropdown__list-item" tabindex="0" id="option-1">Popularité</li>
+								<li role="option" class="dropdown__list-item" tabindex="0" id="option-1">Popularité</li>
 								<hr>
-								<li class="dropdown__list-item" tabindex="0" id="option-2">Date</li>
+								<li role="option" class="dropdown__list-item" tabindex="0" id="option-2">Date</li>
 								<hr>
-								<li class="dropdown__list-item" tabindex="0" id="option-3">Titre</li>
+								<li role="option" class="dropdown__list-item" tabindex="0" id="option-3">Titre</li>
 							</ul>
 						</li>
 					</ul>	
 				</div>			
-	
-				<section class="articles-section">${imagesArticles}${videoArticles}</section>
-	
-				<div class="bottom-info"><span class="photographer_totalLikes"></span><span class="fas fa-heart"></span><span class="photographer_price">${photographers[i].price}€/jour</span></div>
-	
+				<section class="articles-section">${imagesArticles}${videoArticles}</section>	
+				<div class="bottom-info"><span class="photographer_totalLikes"></span><span class="fas fa-heart"></span><span class="photographer_price">${photographers[i].price}€/jour</span></div>	
 				<dialog class="modal-contact" id="myModal" aria-labelledby="headingModal">
 					<div class="modal-contact__content">
 						<header>
@@ -197,6 +188,7 @@ export const displayPhotographerPage = () => {
 					</div>
 				</dialog>							
 				`;
+
 				main.innerHTML = photographerPage;
 
 				popularityFilter(); // Trie par défaut par popularité
@@ -213,9 +205,6 @@ export const displayPhotographerPage = () => {
 				}
 			});
 		}
-		// const photographLinks = document.querySelectorAll(".photographInfos__link");
-		// console.log(photographLinks);
-		// photographLinks.addEventListener("keypress", function () {});
 	});
 };
 

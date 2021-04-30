@@ -2,8 +2,8 @@ const modalDisplay = () => {
 	// // Get the modal
 	const modal = document.getElementById("myModal");
 
-	const open = document.getElementById("myBtn");
 	// // Get the button that opens the modal
+	const open = document.getElementById("myBtn");
 
 	// // Get the <span> element that closes the modal
 	const close = document.getElementsByClassName("modal-contact__close")[0];
@@ -13,7 +13,6 @@ const modalDisplay = () => {
 		modal.style.display = "block";
 		modal.classList.add("modal-visible");
 		const firstTabModal = document.querySelector("#headingModal");
-		console.log(firstTabModal);
 		firstTabModal.focus();
 	};
 

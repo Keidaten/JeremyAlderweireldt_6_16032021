@@ -354,6 +354,7 @@ h2 {
 }
 .modal-contact__title {
   font-size: 2.25rem;
+  padding-right: 30px;
 }
 @media screen and (min-width: 670px) {
   .modal-contact__title {
@@ -424,11 +425,10 @@ h2 {
   cursor: pointer;
 }
 
-img,
-video {
+.profilPages img,
+.profilPages video {
   width: 100%;
 }
-
 .profilPages .header {
   margin-bottom: 30px;
 }
@@ -741,6 +741,7 @@ video {
     margin-right: 5px;
   }
 }
+
 .profilPages .fancybox-bg {
   background: white;
   box-shadow: none;
