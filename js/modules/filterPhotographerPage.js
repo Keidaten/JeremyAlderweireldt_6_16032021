@@ -37,10 +37,7 @@ export const dateFilter = () => {
 
 //Style sort box
 const styleSortBox = () => {
-	const SPACEBAR_KEY_CODE = [0, 32];
 	const ENTER_KEY_CODE = 13;
-	const DOWN_ARROW_KEY_CODE = 40;
-	const UP_ARROW_KEY_CODE = 38;
 	const ESCAPE_KEY_CODE = 27;
 
 	const list = document.querySelector(".dropdown__list");
