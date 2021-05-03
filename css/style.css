@@ -224,7 +224,7 @@ h2 {
   }
 }
 .homePage .main .photographInfos__link {
-  border-radius: 50%;
+  margin: auto;
   cursor: pointer;
 }
 .homePage .main .photographInfos__caption {
