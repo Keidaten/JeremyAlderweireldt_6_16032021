@@ -1,34 +1,35 @@
-const modalDisplay = () => {
-	// // Get the modal
+export const modalDisplay = () => {
+	// Get the modal
 	const modal = document.getElementById("myModal");
 
-	// // Get the button that opens the modal
-	const open = document.getElementById("myBtn");
+	// Get the button that opens the modal
+	const contactBtn = document.getElementById("myBtn");
 
-	// // Get the <span> element that closes the modal
-	const close = document.getElementsByClassName("modal-contact__close")[0];
+	// Get the <span> element that closes the modal
+	const closeBtn = document.getElementsByClassName("modal-contact__close")[0];
 
-	// // When the user clicks on the button, open the modal
-	open.onclick = function () {
+	// When the user clicks on the button, open the modal
+	contactBtn.onclick = function () {
 		modal.style.display = "block";
 		modal.classList.add("modal-visible");
 		const firstTabModal = document.querySelector("#headingModal");
 		firstTabModal.focus();
 	};
 
-	// // When the user clicks on <span> (x), close the modal
-	close.onclick = function () {
+	// When the user clicks on <span> (x), close the modal
+	closeBtn.onclick = function () {
 		modal.style.display = "none";
+		document.querySelector(".photographInfos__name").focus();
 	};
 
 	// Listen enter too
-	close.addEventListener("keydown", function (e) {
+	closeBtn.addEventListener("keydown", function (e) {
 		if (e.code == "Enter") {
-			close.click(); //Trigger search button click event
+			closeBtn.click();
 		}
 	});
 
-	// // When the user clicks anywhere outside of the modal, close it
+	// When the user clicks anywhere outside of the modal, close it
 	window.onclick = function (event) {
 		if (event.target == modal) {
 			modal.style.display = "none";
@@ -38,6 +39,7 @@ const modalDisplay = () => {
 	const form = document.getElementById("form");
 	const inputs = document.querySelectorAll(".modal-contact__inputs");
 
+	// Consolelog inputs
 	function validate(event) {
 		event.preventDefault();
 		modal.style.display = "none";
@@ -49,9 +51,3 @@ const modalDisplay = () => {
 
 	form.addEventListener("submit", validate);
 };
-
-export const modalGestion = () => {
-	modalDisplay();
-};
-
-//Trap focus to modal

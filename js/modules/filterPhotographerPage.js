@@ -35,82 +35,9 @@ export const dateFilter = () => {
 		.forEach((el) => el.parentNode.appendChild(el)); //on vise "section" avec parentNode
 };
 
-//Style sort box
-const styleSortBox = () => {
-	const ENTER_KEY_CODE = 13;
-	const ESCAPE_KEY_CODE = 27;
-
-	const list = document.querySelector(".dropdown__list");
-	const listContainer = document.querySelector(".dropdown__list-container");
-	const dropdownArrow = document.querySelector(".dropdown__arrow");
-	const listItems = document.querySelectorAll(".dropdown__list-item");
-	const dropdownSelectedNode = document.querySelector("#dropdown__selected");
-	const listItemIds = [];
-
-	//
-	dropdownSelectedNode.addEventListener("click", (e) => toggleListVisibility(e));
-	dropdownArrow.addEventListener("click", (e) => toggleListVisibility(e));
-	dropdownSelectedNode.addEventListener("keydown", (e) => toggleListVisibility(e));
-
-	// Ajoute chaque id des items list au tableau
-	listItems.forEach((item) => listItemIds.push(item.id));
-
-	listItems.forEach((item) => {
-		item.addEventListener("click", (e) => {
-			setSelectedListItem(e);
-			closeList();
-		});
-
-		item.addEventListener("keydown", (e) => {
-			switch (e.keyCode) {
-				case ENTER_KEY_CODE:
-					setSelectedListItem(e);
-					closeList();
-					return;
-
-				case ESCAPE_KEY_CODE:
-					closeList();
-					return;
-
-				default:
-					return;
-			}
-		});
-	});
-
-	//Récupère l'élément cliqué et l'actualise en tant qu'item selectionné
-	function setSelectedListItem(e) {
-		let selectedTextToAppend = document.createTextNode(e.target.innerText);
-		dropdownSelectedNode.innerHTML = null;
-		dropdownSelectedNode.appendChild(selectedTextToAppend);
-	}
-
-	//Ferme la liste : retire les classes oen, expanded et aria expanded
-	function closeList() {
-		list.classList.remove("open");
-		dropdownArrow.classList.remove("expanded");
-		listContainer.setAttribute("aria-expanded", false);
-	}
-
-	//Agit selon la touche utilisée
-	function toggleListVisibility(e) {
-		let openDropDown = e.keyCode === ENTER_KEY_CODE;
-
-		if (e.keyCode === ESCAPE_KEY_CODE) {
-			closeList();
-		}
-
-		if (e.type === "click" || openDropDown) {
-			list.classList.toggle("open");
-			dropdownArrow.classList.toggle("expanded");
-			listContainer.setAttribute("aria-expanded", list.classList.contains("open"));
-		}
-	}
-};
-
 // CALL FILTERS BY SELECTED OPTION
 export function callFilters() {
-	styleSortBox();
+	sortMediasBox();
 	document.querySelector(".dropdown").addEventListener("click", function () {
 		const filterValue = document.getElementById("dropdown__selected").innerText;
 		console.log(filterValue);
@@ -131,4 +58,75 @@ export function callFilters() {
 	});
 }
 
-// Style box
+//Sort box dropdown
+const sortMediasBox = () => {
+	const ENTER_KEY_CODE = 13;
+	const ESCAPE_KEY_CODE = 27;
+
+	const list = document.querySelector(".dropdown__list");
+	const listContainer = document.querySelector(".dropdown__list-container");
+	const dropdownArrow = document.querySelector(".dropdown__arrow");
+	const listItems = document.querySelectorAll(".dropdown__list-item");
+	const select = document.querySelector("#dropdown__selected");
+
+	//Récupère l'élément cliqué et l'actualise en tant qu'item selectionné
+	function setSelectedOption(e) {
+		let selectedTextToAppend = document.createTextNode(e.target.innerText);
+		select.innerHTML = null;
+		select.appendChild(selectedTextToAppend);
+	}
+
+	//Ferme la liste : retire les classes open, expanded et aria expanded
+	function closeList() {
+		list.classList.remove("open");
+		dropdownArrow.classList.remove("expanded");
+		listContainer.setAttribute("aria-expanded", false);
+	}
+
+	//Agit selon la touche utilisée
+	function toggleListVisibility(e) {
+		let openDropDown = e.keyCode === ENTER_KEY_CODE;
+
+		//Ferme les options si echap
+		if (e.keyCode === ESCAPE_KEY_CODE) {
+			closeList();
+		}
+
+		//Ouvre les options si click ou enter
+		if (e.type === "click" || openDropDown) {
+			list.classList.toggle("open");
+			dropdownArrow.classList.toggle("expanded");
+			listContainer.setAttribute("aria-expanded", list.classList.contains("open"));
+		}
+	}
+
+	// Affiche les options au click/enter sur le select
+	select.addEventListener("click", (e) => toggleListVisibility(e));
+	dropdownArrow.addEventListener("click", (e) => toggleListVisibility(e));
+	select.addEventListener("keydown", (e) => toggleListVisibility(e));
+
+	// Fermer la liste au click/enter sur une option
+	// Ferme la liste si echap
+	listItems.forEach((item) => {
+		item.addEventListener("click", (e) => {
+			setSelectedOption(e);
+			closeList();
+		});
+
+		item.addEventListener("keydown", (e) => {
+			switch (e.keyCode) {
+				case ENTER_KEY_CODE:
+					setSelectedOption(e);
+					closeList();
+					return;
+
+				case ESCAPE_KEY_CODE:
+					closeList();
+					return;
+
+				default:
+					return;
+			}
+		});
+	});
+};

@@ -2,7 +2,7 @@ import { getData } from "./dataFetched.js";
 import { callFilters } from "./filterPhotographerPage.js";
 import { popularityFilter } from "./filterPhotographerPage.js";
 import { incrementLikes } from "./likesCount.js";
-import { modalGestion } from "./modal-contact.js";
+import { modalDisplay } from "./modal-contact.js";
 import { fancyboxOptions } from "./fancyboxOptions.js";
 import { homeToProfilePage } from "./photographersPageReform.js";
 
@@ -28,7 +28,8 @@ export const displayPhotographerPage = () => {
 			constructor() {
 				this._type = "photo";
 				this.createPhoto = function (IDphotograph, namePhotograph) {
-					let getImages = mediaData.filter((medias) => medias["photographerId"] == IDphotograph && "image" in medias); //get images relative to the right photographer
+					//récupère les images = les medias ayant l'id entrée en paramètre, si le media est une image
+					let getImages = mediaData.filter((medias) => medias["photographerId"] == IDphotograph && "image" in medias);
 					const photographerPics = getImages
 						.map((pic) => {
 							const picsTitle = pic.image
@@ -43,7 +44,7 @@ export const displayPhotographerPage = () => {
 								<article data-likes="${pic.likes}" data-date="${pic.date}" class="media" data-title="${picsTitle}">
 									<div class="media__content">
 										<figure><a href="img/${namePhotograph}/${pic.image}"  aria-label="${pic.alttext} : Cliquez pour zoomer" data-fancybox="gallery" data-caption="${picsTitle}"><img class="media__thumbnail" src="img/${namePhotograph}/${pic.image}" alt="${pic.alttext}"></a>
-											<figcaption class="media__infos">
+											<figcaption tabindex="0" class="media__infos">
 												<p class="media__title">${picsTitle}</p>
 												<p class="media__price" >${pic.price}€</p>
 												<button class="media__likeButton">
@@ -68,7 +69,8 @@ export const displayPhotographerPage = () => {
 			constructor() {
 				this._type = "video";
 				this.createVideo = function (IDphotograph, namePhotograph) {
-					let getVideos = mediaData.filter((medias) => medias["photographerId"] == IDphotograph && "video" in medias); //get videos relative to the right photographer
+					//récupère les vidéos
+					let getVideos = mediaData.filter((medias) => medias["photographerId"] == IDphotograph && "video" in medias);
 					const photographerVids = getVideos
 						.map((vid) => {
 							const vidsTitle = vid.video
@@ -83,7 +85,7 @@ export const displayPhotographerPage = () => {
 								<article class="media" data-date="${vid.date}" data-likes="${vid.likes}" data-title="${vidsTitle}">
 								<div class="media__content">
 									<a href="img/${namePhotograph}/${vid.video}" data-fancybox="gallery" data-caption="${vidsTitle}" aria-label="${vid.alttext} : Cliquez pour zoomer"><video title="${vid.alttext}" class="media__thumbnail"><source src="img/${namePhotograph}/${vid.video}" type="video/mp4"></video></a>
-									<div class="media__infos">
+									<div tabindex="0" class="media__infos">
 										<p class="media__title">${vidsTitle}</p>
 										<p class="media__price">${vid.price}€</p>
 										<button class="media__likeButton">
@@ -194,14 +196,14 @@ export const displayPhotographerPage = () => {
 				popularityFilter(); // Trie par défaut par popularité
 				callFilters(); // Appelle les filtres
 				incrementLikes();
-				modalGestion();
+				modalDisplay();
 				fancyboxOptions();
 			});
 
 			//ACT ON ENTER KEY
 			photographAchor[i].addEventListener("keydown", function (e) {
 				if (e.code == "Enter") {
-					photographAchor[i].click(); //Trigger search button click event
+					photographAchor[i].click();
 				}
 			});
 		}
