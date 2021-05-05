@@ -142,7 +142,7 @@ export const displayPhotographerPage = () => {
 					<span id="sortMedias">Trier par</span>
 					<ul class="dropdown">
 						<li role="button" aria-labelledby="sortMedias" id="dropdown__selected" tabindex="0">Popularité</li>
-						<span class="fas fa-angle-up arrowSort dropdown__arrow"></span>
+						<li><span class="fas fa-angle-up arrowSort dropdown__arrow"></span></li>
 						<li aria-expanded="false" role="list" class="dropdown__list-container">
 							<ul class="dropdown__list">
 								<li role="option" class="dropdown__list-item" tabindex="0" id="option-1">Popularité</li>

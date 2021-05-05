@@ -36,6 +36,7 @@ export const incrementLikes = () => {
 	const spanLikes = document.querySelector(".photographer_totalLikes");
 	spanLikes.innerHTML = sumLikes;
 
+	//Mise à jour du total des likes en y ajoutant les nouveaux medias likés
 	likeButtonsList.forEach((button, i) => {
 		likeButtonsList[i].addEventListener("click", () => {
 			const likedMedias = document.getElementsByClassName("liked");

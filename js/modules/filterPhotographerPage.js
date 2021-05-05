@@ -1,3 +1,5 @@
+import { incrementLikes } from "./likesCount.js";
+
 // FILTER BY TITLE
 
 //localcompare retourne -1 ou 1 selon l'ordre lexicographique des elements comparés
@@ -50,6 +52,7 @@ export function callFilters() {
 		} else if (filterValue == "Date") {
 			dateFilter();
 		}
+		incrementLikes();
 	});
 	document.querySelector(".dropdown").addEventListener("keydown", function (e) {
 		if (e.keyCode == 13) {
